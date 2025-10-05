@@ -15,11 +15,15 @@ public:
     bool openBus() { return impl->openBus(); }
     void closeBus() { impl->closeBus(); }
 
-    bool writeByte(uint8_t reg, uint8_t data) { return impl->writeByte(reg, data); }
-    bool writeBytes(uint8_t reg, const std::vector<uint8_t>& data) { return impl->writeBytes(reg, data); }
+    bool writeByte(uint8_t value) { return impl->writeByte(value); }
+    bool writeBytes(const uint8_t* data, size_t length) { return impl->writeBytes(data, length); }
 
-    bool readByte(uint8_t reg, uint8_t& data) { return impl->readByte(reg, data); }
-    bool readBytes(uint8_t reg, std::vector<uint8_t>& data, size_t length) { return impl->readBytes(reg, data, length); }
+    bool readByte(uint8_t& value) { return impl->readByte(value); }
+    bool readBytes(uint8_t* buffer, size_t length) { return impl->readBytes(buffer, length); }
+
+    bool writeRegister(uint8_t reg, uint8_t value) { return impl->writeRegister(reg, value); }
+    bool readRegister(uint8_t reg, uint8_t& value) { return impl->readRegister(reg, value); }
+    bool readRegisterBlock(uint8_t reg, uint8_t* buffer, size_t length) { return impl->readRegisterBlock(reg, buffer, length); }
 
 private:
     std::unique_ptr<I2CInterface> impl;

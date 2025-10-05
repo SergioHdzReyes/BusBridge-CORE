@@ -14,9 +14,13 @@ public:
     bool openBus() override { return false; }
     void closeBus() override {}
 
-    bool writeByte(uint8_t, uint8_t) override { return false; }
-    bool writeBytes(uint8_t, const std::vector<uint8_t>&) override { return false; }
+    bool writeByte(uint8_t value) override { return false; }
+    bool writeBytes(const uint8_t* data, size_t length) override { return false; }
 
-    bool readByte(uint8_t, uint8_t&) override { return false; }
-    bool readBytes(uint8_t, std::vector<uint8_t>&, size_t) override { return false; }
+    bool readByte(uint8_t& value) override { return false; }
+    bool readBytes(uint8_t* buffer, size_t length) override { return false; }
+
+    bool writeRegister(uint8_t reg, uint8_t value) override { return false; }
+    bool readRegister(uint8_t reg, uint8_t& value) override { return false; }
+    bool readRegisterBlock(uint8_t reg, uint8_t* buffer, size_t length) override { return false; }
 };
