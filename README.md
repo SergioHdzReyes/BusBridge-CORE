@@ -20,21 +20,61 @@
 
 ## 🚀 Quick Start (I2C Sensor Reading)
 
-```cpp
-#include <i2c/I2CDevice.h>
-#include <iostream>
+### 🧠 Run the Example
 
-int main() {
-    I2CDevice sensor(0x76, "/dev/i2c-1"); // sensor address on the bus
-    uint8_t temp_reg = 0xFA;
+```bash
+1️⃣ Clone the repository
+git clone https://github.com/youruser/busbridge-core.git
+cd busbridge-core
 
-    auto data = sensor.readBytes(temp_reg, 2);
-    int temperature = (data[0] << 8) | data[1];
+2️⃣ Build library and examples
+cmake -B build
+cmake --build build -j$(nproc)
 
-    std::cout << "Temperature: " << temperature / 100.0 << " °C" << std::endl;
-    return 0;
-}
+3️⃣ Run the BME280 example
+sudo ./build/read_bme280
 ```
+
+### 🧾 Expected Output
+```bash
+Trying to open BME280 sensor
+
+Temperature: 24.6 °C
+Pressure: 1013.1 hPa
+Humidity: 47.9 %
+```
+
+### 🧠 What Does This Example Do?
+
+The example read_bme280.cpp demonstrates how to:
+
+1️⃣ Open the I²C bus (/dev/i2c-1)
+
+2️⃣ Initialize a BME280Reader instance
+
+3️⃣ Read sensor data
+
+4️⃣ Print temperature, humidity, and pressure
+
+Source code: **examples/read_bme280.cpp**
+
+## 💡 Quick Look at the API
+
+If you just want to see how simple it is to use the library, here’s a minimal snippet:
+
+```bash
+I2CDevice i2c("/dev/i2c-1", 0x76);
+BME280Reader reader(i2c);
+
+int32_t temp = 0, press = 0, hum = 0;
+reader->readRawData(temp, press, hum);
+float temperature = sensor->compensateTemperature(temp);
+
+std::cout << temperature << " °C\n";
+```
+
+That’s all it takes — clean, modern C++ that talks directly to your sensor.
+If you want to see it running, just build and run the example above 🚀
 
 ---
 
