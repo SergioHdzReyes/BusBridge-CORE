@@ -68,7 +68,7 @@ BME280Reader reader(i2c);
 
 int32_t temp = 0, press = 0, hum = 0;
 reader->readRawData(temp, press, hum);
-float temperature = sensor->compensateTemperature(temp);
+float temperature = reader->compensateTemperature(temp);
 
 std::cout << temperature << " °C\n";
 ```
