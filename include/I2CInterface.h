@@ -1,8 +1,7 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <cstdint>
+#include <cstdlib>
 
 class I2CInterface {
 public:
