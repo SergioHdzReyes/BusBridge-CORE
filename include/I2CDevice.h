@@ -8,6 +8,7 @@
 class I2CDevice {
 public:
     I2CDevice(const std::string& bus, uint8_t address);
+    I2CInterface& getImpl() { return *impl; }
 
     bool openBus() { return impl->openBus(); }
     void closeBus() { impl->closeBus(); }
