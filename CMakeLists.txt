@@ -26,7 +26,42 @@ endif()
 # Static library
 add_library(busbridge-core STATIC
         src/I2CDevice.cpp
+        src/BME280Reader.cpp
         ${SRC_PLATFORM}
+)
+target_include_directories(busbridge-core PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+)
+
+install(TARGETS busbridge-core
+        EXPORT busbridgeTargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(DIRECTORY include/
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.h"
+        PATTERN "platform/*" EXCLUDE
+        PATTERN "platform" EXCLUDE
+)
+
+install(EXPORT busbridgeTargets
+        FILE busbridge-coreConfig.cmake
+        NAMESPACE busbridge-core::
+        DESTINATION lib/cmake/busbridge-core
+)
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/busbridge-coreConfigVersion.cmake"
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY SameMajorVersion
+)
+install(FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/busbridge-coreConfigVersion.cmake"
+        DESTINATION lib/cmake/busbridge-core
 )
 
 # Examples
