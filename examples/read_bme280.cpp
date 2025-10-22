@@ -9,22 +9,25 @@ int main()
     I2CDevice i2c("/dev/i2c-1", sensorAddr);
     std::cerr << "Trying to open BME280 sensor\n\n";
 
-    if (!i2c.openBus()) {
-        std::cerr << "It was not possible to open the device.\n";
-        return -1;
+    I2CError result(i2c.openBus());
+    if (!result.ok()) {
+        std::cerr << "It was not possible to open the device: " << result.getMessage() << std::endl;
+        return result.getCode();
     }
 
     std::unique_ptr<BME280Reader> sensor = std::make_unique<BME280Reader>(i2c.getImpl());
 
-    if (!sensor->initialize()) {
-        std::cerr << "The device could not be initialized." << std::endl;
-        return -1;
+    I2CError initRes(sensor->initialize());
+    if (!initRes.ok()) {
+        std::cerr << "The device could not be initialized: " << initRes.getMessage() << std::endl;
+        return initRes.getCode();
     }
 
     int32_t raw_T = 0, raw_P = 0, raw_H = 0;
-    if (!sensor->readRawData(raw_T, raw_P, raw_H)) {
-        std::cerr << "Error reading sensor data." << std::endl;
-        return -1;
+    I2CError readRawRes(sensor->readRawData(raw_T, raw_P, raw_H));
+    if (!readRawRes.ok()) {
+        std::cerr << "Error reading sensor data: " << readRawRes.getMessage() << std::endl;
+        return readRawRes.getCode();
     }
 
     float temperature = sensor->compensateTemperature(raw_T);
@@ -35,5 +38,5 @@ int main()
     std::cout << "Pressure: " << pressure << " hPa" << std::endl;
     std::cout << "Humidity: " << humidity << " %" << std::endl;
 
-    return 0;
+    return static_cast<int>(ErrorCode::Success);
 }

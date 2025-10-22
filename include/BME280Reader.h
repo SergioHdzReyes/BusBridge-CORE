@@ -49,9 +49,9 @@ class BME280Reader {
 public:
     explicit BME280Reader(I2CInterface& device);
 
-    bool initialize();
+    I2CError initialize();
 
-    bool readRawData(int32_t& adc_T, int32_t& adc_P, int32_t& adc_H);
+    I2CError readRawData(int32_t& adc_T, int32_t& adc_P, int32_t& adc_H);
 
     float compensateTemperature(uint32_t adc_T);
 
@@ -64,5 +64,5 @@ private:
     int32_t m_t_fine;
     CalibrationData m_calib{};
 
-    bool readCalibrationData();
+    I2CError readCalibrationData();
 };

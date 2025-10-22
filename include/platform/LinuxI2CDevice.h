@@ -11,18 +11,18 @@ public:
     LinuxI2CDevice(const std::string& bus, uint8_t address);
     ~LinuxI2CDevice() override;
 
-    bool openBus() override;
+    I2CError openBus() override;
     void closeBus() override;
 
-    bool writeByte(uint8_t value) override;
-    bool writeBytes(const uint8_t* data, size_t length) override;
+    I2CError writeByte(uint8_t value) override;
+    I2CError writeBytes(const uint8_t* data, size_t length) override;
 
-    bool readByte(uint8_t& value) override;
-    bool readBytes(uint8_t* buffer, size_t length) override;
+    I2CError readByte(uint8_t& value) override;
+    I2CError readBytes(uint8_t* buffer, size_t length) override;
 
-    bool writeRegister(uint8_t reg, uint8_t value) override;
-    bool readRegister(uint8_t reg, uint8_t& value) override;
-    bool readRegisterBlock(uint8_t reg, uint8_t* buffer, size_t length) override;
+    I2CError writeRegister(uint8_t reg, uint8_t value) override;
+    I2CError readRegister(uint8_t reg, uint8_t& value) override;
+    I2CError readRegisterBlock(uint8_t reg, uint8_t* buffer, size_t length) override;
 
 private:
     std::string m_bus;

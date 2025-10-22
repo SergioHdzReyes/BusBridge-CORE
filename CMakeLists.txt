@@ -27,6 +27,7 @@ endif()
 add_library(busbridge-core STATIC
         src/I2CDevice.cpp
         src/BME280Reader.cpp
+        src/I2CError.cpp
         ${SRC_PLATFORM}
 )
 target_include_directories(busbridge-core PUBLIC

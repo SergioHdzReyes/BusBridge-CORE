@@ -7,31 +7,47 @@ BME280Reader::BME280Reader(I2CInterface& device)
 
 }
 
-bool BME280Reader::initialize() {
-    if (!readCalibrationData()) return false;
+I2CError BME280Reader::initialize() {
+    I2CError calibDataRes(readCalibrationData());
+    if (!calibDataRes.ok()) {
+        return calibDataRes;
+    }
 
     uint8_t ctrl_hum = 0b001;
     uint8_t ctrl_meas = 0b00100111;
     uint8_t config = 0b10100000;
 
-    m_device.writeRegister(REG_CTRL_HUM, ctrl_hum);
-    m_device.writeRegister(REG_CTRL_MEAS, ctrl_meas);
-    m_device.writeRegister(REG_CONFIG, config);
+    I2CError regHumRes(m_device.writeRegister(REG_CTRL_HUM, ctrl_hum));
+    if (!regHumRes.ok()) {
+        return regHumRes;
+    }
 
-    return true;
+    I2CError regMeasRes(m_device.writeRegister(REG_CTRL_MEAS, ctrl_meas));
+    if (!regMeasRes.ok()) {
+        return regMeasRes;
+    }
+
+    I2CError regConfigRes(m_device.writeRegister(REG_CONFIG, config));
+    if (!regConfigRes.ok()) {
+        return regConfigRes;
+    }
+
+    return {};
 }
 
-bool BME280Reader::readCalibrationData()
+I2CError BME280Reader::readCalibrationData()
 {
     uint8_t calibBlock1[26];
-    if (!m_device.readRegisterBlock(REG_CALIBSTART, calibBlock1, sizeof(calibBlock1)))
-        return false;
+    I2CError calibFirstRes(m_device.readRegisterBlock(REG_CALIBSTART, calibBlock1, sizeof(calibBlock1)));
+    if (!calibFirstRes.ok())
+        return calibFirstRes;
 
     std::memcpy(&m_calib, calibBlock1, 26);
 
     uint8_t calibBlock2[7];
-    if (!m_device.readRegisterBlock(0xE1, calibBlock2, sizeof(calibBlock2)))
-        return false;
+    I2CError calibSecondRes(m_device.readRegisterBlock(0xE1, calibBlock2, sizeof(calibBlock2)));
+    if (!calibSecondRes.ok())
+        return calibSecondRes;
 
     m_calib.dig_H2 = (int16_t)(calibBlock2[1] << 8 | calibBlock2[0]);
     m_calib.dig_H3 = calibBlock2[2];
@@ -39,19 +55,20 @@ bool BME280Reader::readCalibrationData()
     m_calib.dig_H5 = (int16_t)((calibBlock2[5] << 4) | (calibBlock2[4] >> 4));
     m_calib.dig_H6 = (int8_t)calibBlock2[6];
 
-    return true;
+    return {};
 }
 
-bool BME280Reader::readRawData(int32_t& adc_T, int32_t& adc_P, int32_t& adc_H)
+I2CError BME280Reader::readRawData(int32_t& adc_T, int32_t& adc_P, int32_t& adc_H)
 {
     uint8_t data[8];
-    if (!m_device.readRegisterBlock(REG_PRESS_MSB, data, sizeof(data)))
-        return false;
+    I2CError pressRes(m_device.readRegisterBlock(REG_PRESS_MSB, data, sizeof(data)));
+    if (!pressRes.ok())
+        return pressRes;
 
     adc_P = (int32_t)(((uint32_t)data[0] << 12) | ((uint32_t)data[1] << 4) | ((data[2] >> 4) & 0x0F));
     adc_T = (int32_t)(((uint32_t)data[3] << 12) | ((uint32_t)data[4] << 4) | ((data[5] >> 4) & 0x0F));
     adc_H = (int32_t)((data[6] << 8) | data[7]);
-    return true;
+    return {};
 }
 
 float BME280Reader::compensateTemperature(uint32_t adc_T) {
