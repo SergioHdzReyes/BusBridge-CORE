@@ -5,6 +5,8 @@
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
 
+namespace busbridge::i2c {
+
 LinuxI2CDevice::LinuxI2CDevice(const std::string& bus, uint8_t address)
         : m_bus(bus), m_address(address), m_fd(-1) {}
 
@@ -79,4 +81,6 @@ I2CError LinuxI2CDevice::readRegisterBlock(uint8_t reg, uint8_t* buffer, size_t 
         return result;
 
     return readBytes(buffer, length);
+}
+
 }

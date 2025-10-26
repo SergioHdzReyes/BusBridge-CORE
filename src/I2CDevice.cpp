@@ -6,10 +6,14 @@
 #include "platform/LinuxI2CDevice.h"
 #endif
 
+namespace busbridge::i2c {
+
 I2CDevice::I2CDevice(const std::string& bus, uint8_t address) {
 #if defined(_WIN32)
     impl = std::make_unique<WindowsI2CDevice>(bus, address);
 #else
     impl = std::make_unique<LinuxI2CDevice>(bus, address);
 #endif
+}
+
 }

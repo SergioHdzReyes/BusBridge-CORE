@@ -2,6 +2,8 @@
 
 #include <cstring>
 
+namespace busbridge::i2c {
+
 BME280Reader::BME280Reader(I2CInterface& device)
     : m_device(device), m_t_fine(0) {
 
@@ -121,4 +123,6 @@ float BME280Reader::compensateHumidity(uint16_t adc_H) const {
 
     double h = (v_x1_u32r >> 12);
     return h / 1024.0;
+}
+
 }

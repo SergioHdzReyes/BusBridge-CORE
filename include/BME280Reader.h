@@ -45,6 +45,8 @@ struct CalibrationData {
 };
 #pragma pack(pop)
 
+namespace busbridge::i2c {
+
 class BME280Reader {
 public:
     explicit BME280Reader(I2CInterface& device);
@@ -66,3 +68,5 @@ private:
 
     I2CError readCalibrationData();
 };
+
+}

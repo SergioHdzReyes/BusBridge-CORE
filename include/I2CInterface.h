@@ -5,6 +5,8 @@
 #include <cstdint>
 #include <cstdlib>
 
+namespace busbridge::i2c {
+
 class I2CInterface {
 public:
     virtual ~I2CInterface() = default;
@@ -22,3 +24,5 @@ public:
     virtual I2CError readRegister(uint8_t reg, uint8_t& value) = 0;
     virtual I2CError readRegisterBlock(uint8_t reg, uint8_t* buffer, size_t length) = 0;
 };
+
+}

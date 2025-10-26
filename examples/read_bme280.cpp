@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+using namespace busbridge::i2c;
+
 int main()
 {
     uint8_t sensorAddr = 0x77;

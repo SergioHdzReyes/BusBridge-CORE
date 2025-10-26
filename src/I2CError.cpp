@@ -1,5 +1,7 @@
 #include "I2CError.h"
 
+namespace busbridge::i2c {
+
 I2CError::I2CError() noexcept
         : m_code(ErrorCode::Success), m_message(describeErrorCode(ErrorCode::Success)) {}
 
@@ -38,4 +40,6 @@ std::string I2CError::describeErrorCode(ErrorCode code) {
         case ErrorCode::DeviceNotFound: return "I2C: Device not found";
         default: return "I2C: Unknown error";
     }
+}
+
 }

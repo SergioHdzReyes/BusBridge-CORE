@@ -6,6 +6,8 @@
 #include <vector>
 #include <cstdint>
 
+namespace busbridge::i2c {
+
 class LinuxI2CDevice: public I2CInterface {
 public:
     LinuxI2CDevice(const std::string& bus, uint8_t address);
@@ -29,3 +31,5 @@ private:
     uint8_t m_address;
     int m_fd;
 };
+
+}

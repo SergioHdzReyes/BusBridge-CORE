@@ -6,6 +6,8 @@
 #include <vector>
 #include <cstdint>
 
+namespace busbridge::i2c {
+
 class WindowsI2CDevice: public I2CInterface {
 public:
     WindowsI2CDevice(const std::string& bus, uint8_t address) {}
@@ -24,3 +26,5 @@ public:
     bool readRegister(uint8_t reg, uint8_t& value) override { return false; }
     bool readRegisterBlock(uint8_t reg, uint8_t* buffer, size_t length) override { return false; }
 };
+
+}

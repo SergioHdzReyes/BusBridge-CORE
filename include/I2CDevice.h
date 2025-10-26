@@ -4,6 +4,7 @@
 
 #include <memory>
 
+namespace busbridge::i2c {
 
 class I2CDevice {
 public:
@@ -26,3 +27,5 @@ public:
 private:
     std::unique_ptr<I2CInterface> impl;
 };
+
+}

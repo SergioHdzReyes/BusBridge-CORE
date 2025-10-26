@@ -14,6 +14,8 @@ enum class ErrorCode {
     DeviceNotFound
 };
 
+namespace busbridge::i2c {
+
 class I2CError : public IProtocolError {
 public:
     I2CError() noexcept;
@@ -33,3 +35,5 @@ private:
 
     static std::string describeErrorCode(ErrorCode code);
 };
+
+}

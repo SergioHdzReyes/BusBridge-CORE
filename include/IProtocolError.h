@@ -2,6 +2,8 @@
 
 #include <string>
 
+namespace busbridge {
+
 class IProtocolError {
 public:
     virtual ~IProtocolError() = default;
@@ -11,3 +13,5 @@ public:
     virtual std::string getMessage() const = 0;
     virtual const char* getProtocolName() const noexcept = 0;
 };
+
+}
