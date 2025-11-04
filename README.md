@@ -116,6 +116,10 @@ Documentation is available in the [`docs/`](./docs) folder:
 
 ---
 
+## 💬 Questions or ideas?
+Join the discussion at [GitHub Discussions](https://github.com/SergioHdzReyes/BusBridge-CORE/discussions)
+
+
 ## 📜 License
 
 This project is licensed under the **MIT License**. See [`LICENSE`](./LICENSE) for details.
