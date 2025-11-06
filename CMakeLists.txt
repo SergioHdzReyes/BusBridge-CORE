@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(busbridge-core VERSION 0.2.0 LANGUAGES C CXX)
+project(busbridge-core VERSION 0.3.0 LANGUAGES C CXX)
 
 # Force Clang
 if(NOT CMAKE_C_COMPILER)
@@ -21,6 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 include_directories(${PROJECT_SOURCE_DIR}/include)
+include(packaging/CPackConfig.cmake)
 
 # ----------------------------------
 # Subprojects
