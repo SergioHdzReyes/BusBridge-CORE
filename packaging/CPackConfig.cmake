@@ -20,12 +20,6 @@ set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${PROJECT_VERSION}")
 set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${PROJECT_VERSION}-src")
 
 # -----------------------------
-# Package types to generate
-# -----------------------------
-set(CPACK_GENERATOR "DEB;RPM;TGZ")
-set(CPACK_SOURCE_GENERATOR "TGZ")
-
-# -----------------------------
 # License and resources
 # -----------------------------
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
@@ -36,13 +30,19 @@ set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
 # -----------------------------
 include(GNUInstallDirs)
 set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
-set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
 
+# -----------------------------
+# Components installation
+# -----------------------------
+set(CPACK_COMPONENTS_ALL runtime devel)
+set(CPACK_MONOLITHIC_INSTALL TRUE)
 
 # -----------------------------
 # Detect Linux distribution
 # -----------------------------
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr")
+
     if(EXISTS "/etc/os-release")
         file(READ "/etc/os-release" OS_RELEASE_CONTENTS)
 
@@ -66,10 +66,17 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         message(WARNING "Unknown Linux distribution, defaulting to TGZ")
         set(CPACK_GENERATOR "TGZ")
     endif()
+elseif(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
+    message(STATUS "Detected macOS system → Using DragNDrop generator")
+    set(CPACK_GENERATOR "DragNDrop:TGZ")
+
+    # Installation directory
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
 else()
     set(CPACK_GENERATOR "TGZ")
 endif()
 
+set(CPACK_SOURCE_GENERATOR "TGZ")
 
 # -----------------------------
 # Ending CPack configuration
