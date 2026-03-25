@@ -2,8 +2,8 @@
 
 **BusBridge CORE is a cross-platform C++ middleware library for embedded communication buses.**
 
-🔹 Free Core (MIT) supporting **I2C**  
-🔹 Roadmap includes **SPI, UART, CAN** in future PRO releases  
+🔹 Free Core (MIT) supporting **I2C** and **CAN**  
+🔹 Roadmap includes **SPI, UART** in future PRO releases  
 🔹 Designed to be efficient, portable, and easy to extend
 
 ---
@@ -78,12 +78,50 @@ If you want to see it running, just build and run the example above 🚀
 
 ---
 
+## 🚗 CAN Bus Support
+
+**BusBridge CORE now includes CAN bus infrastructure** for building custom CAN applications.
+
+### 🛠 CAN Infrastructure Available
+
+- **CANMessage**: Complete CAN frame structure (11/29-bit IDs, data, timestamps)
+- **CANError**: Comprehensive error handling with detailed messages
+- **ICANInterface**: Abstract interface for CAN operations
+- **CANDevice**: Factory for creating CAN interfaces
+- **SocketCANInterface**: Linux SocketCAN implementation (compatible with candlelight, PEAK, etc.)
+
+### 📋 Example: Custom CAN Sniffer
+
+```cpp
+#include "can/CANDevice.h"
+
+CANDevice device("can0");
+device.openBus();
+
+CANMessage msg;
+while (true) {
+    if (device.receiveMessage(msg).ok()) {
+        std::cout << "ID: 0x" << std::hex << msg.id << std::endl;
+    }
+}
+```
+
+### 🏗 Build Your Own CAN Applications
+
+The CAN infrastructure allows you to build:
+- **CAN Sniffers** (traffic monitoring)
+- **CAN Loggers** (data recording)
+- **CAN Testers** (message injection)
+- **CAN Bridges** (protocol conversion)
+- **Custom CAN tools** (analysis, diagnostics)
+
+---
+
 ## 🗺 Roadmap
 
-- ✅ **Initial I2C support (Core OSS)**
+- ✅ **Initial I2C and CAN support (Core OSS)**
 - 🔄 Integration examples with common sensors (BMP280, BME280)
 - ⏳ SPI and UART support (future PRO release)
-- ⏳ CAN bus support (future PRO release)
 - ⏳ REST API / daemon for remote integration (future PRO release)
 
 > Note: Features marked as "future PRO release" will be available only in the commercial PRO version.
@@ -131,6 +169,6 @@ This project is licensed under the **MIT License**. See [`LICENSE`](./LICENSE) f
 If you find this project useful:
 - Give it a **star** ⭐ on GitHub
 - Share with other developers
-- Consider supporting future PRO development (SPI, UART, CAN, PRO version)
+- Consider supporting future PRO development (SPI, UART, PRO version)
 
 💡 *This is just the beginning. With your help, we can build a robust, cross-platform library for embedded hardware integration.*

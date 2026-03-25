@@ -13,9 +13,18 @@ set(SRC_I2C
         ${SRC_I2C_PLATFORM}
 )
 
-# Create static library with I2C components
+# CAN sources
+set(SRC_CAN
+        can/CANMessage.cpp
+        can/CANError.cpp
+        can/CANDevice.cpp
+        can/SocketCANInterface.cpp
+)
+
+# Create static library with both I2C and CAN components
 add_library(busbridge-core STATIC
         ${SRC_I2C}
+        ${SRC_CAN}
 )
 
 target_include_directories(busbridge-core PUBLIC
