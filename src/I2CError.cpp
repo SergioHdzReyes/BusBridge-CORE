@@ -1,13 +1,17 @@
+/**
+ * @file I2CError.cpp
+ * @brief Implementation of I2CError class
+ */
+
 #include "I2CError.h"
 
 namespace busbridge::i2c {
 
 I2CError::I2CError() noexcept
-        : m_code(ErrorCode::Success), m_message(describeErrorCode(ErrorCode::Success)) {}
+    : m_code(ErrorCode::Success), m_message(describeErrorCode(ErrorCode::Success)) {}
 
 I2CError::I2CError(ErrorCode code, std::string msg)
-        : m_code(code),
-          m_message(msg.empty() ? describeErrorCode(code) : std::move(msg)) {}
+    : m_code(code), m_message(msg.empty() ? describeErrorCode(code) : std::move(msg)) {}
 
 bool I2CError::ok() const noexcept {
     return m_code == ErrorCode::Success;
@@ -31,15 +35,25 @@ bool I2CError::operator!=(ErrorCode code) const noexcept {
 
 std::string I2CError::describeErrorCode(ErrorCode code) {
     switch (code) {
-        case ErrorCode::Success: return "No error";
-        case ErrorCode::BusOpenFailed: return "I2C: Failed to open bus";
-        case ErrorCode::ReadFailed: return "I2C: Failed to read from device";
-        case ErrorCode::WriteFailed: return "I2C: Failed to write to device";
-        case ErrorCode::Timeout: return "I2C: Operation timed out";
-        case ErrorCode::InvalidParameter: return "I2C: Invalid parameter";
-        case ErrorCode::DeviceNotFound: return "I2C: Device not found";
-        default: return "I2C: Unknown error";
+        case ErrorCode::Success:
+            return "Operation successful";
+        case ErrorCode::BusOpenFailed:
+            return "Failed to open I2C bus";
+        case ErrorCode::ReadFailed:
+            return "Failed to read from I2C device";
+        case ErrorCode::WriteFailed:
+            return "Failed to write to I2C device";
+        case ErrorCode::Timeout:
+            return "I2C operation timed out";
+        case ErrorCode::InvalidParameter:
+            return "Invalid parameter provided";
+        case ErrorCode::UnsupportedOperation:
+            return "Operation not supported by device/implementation";
+        case ErrorCode::DeviceNotFound:
+            return "I2C device not found on bus";
+        default:
+            return "Unknown I2C error";
     }
 }
 
-}
+}  // namespace busbridge::i2c

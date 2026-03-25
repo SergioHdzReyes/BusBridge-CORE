@@ -1,16 +1,21 @@
-# Set platform
+# Set platform for I2C
 if(WIN32)
-    set(SRC_PLATFORM WindowsI2CDevice.cpp)
+    set(SRC_I2C_PLATFORM WindowsI2CDevice.cpp)
 else()
-    set(SRC_PLATFORM LinuxI2CDevice.cpp)
+    set(SRC_I2C_PLATFORM LinuxI2CDevice.cpp)
 endif()
 
-# Create static library
-add_library(busbridge-core STATIC
+# I2C sources
+set(SRC_I2C
         I2CDevice.cpp
         BME280Reader.cpp
         I2CError.cpp
-        ${SRC_PLATFORM}
+        ${SRC_I2C_PLATFORM}
+)
+
+# Create static library with I2C components
+add_library(busbridge-core STATIC
+        ${SRC_I2C}
 )
 
 target_include_directories(busbridge-core PUBLIC
