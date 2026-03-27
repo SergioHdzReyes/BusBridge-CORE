@@ -56,6 +56,9 @@ enum class ErrorCode : uint8_t {
     /// @brief Memory allocation failed
     MemoryError = 14,
 
+    /// @brief Invalid argument provided
+    InvalidArgument = 15,
+
     /// @brief Unknown or generic error
     UnknownError = 255
 };

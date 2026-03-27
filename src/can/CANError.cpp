@@ -45,6 +45,8 @@ std::string CANError::describeErrorCode(ErrorCode code) noexcept {
             return "Invalid parameters provided";
         case ErrorCode::MemoryError:
             return "Memory allocation failed";
+        case ErrorCode::InvalidArgument:
+            return "Invalid argument provided";
         case ErrorCode::UnknownError:
         default:
             return "Unknown error";
