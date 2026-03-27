@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CANMessage.h"
-#include "CANError.h"
+#include "can/CANMessage.h"
+#include "can/CANError.h"
 
 #include <string>
 #include <functional>

@@ -1,5 +1,5 @@
-#include "BME280Reader.h"
-#include "I2CDevice.h"
+#include "i2c/BME280Reader.h"
+#include "i2c/I2CDevice.h"
 
 #include <iostream>
 

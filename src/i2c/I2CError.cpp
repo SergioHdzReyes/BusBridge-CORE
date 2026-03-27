@@ -3,7 +3,7 @@
  * @brief Implementation of I2CError class
  */
 
-#include "I2CError.h"
+#include "i2c/I2CError.h"
 
 namespace busbridge::i2c {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "I2CInterface.h"
+#include "i2c/I2CInterface.h"
 
 /// @brief BME280 sensor register addresses
 constexpr uint8_t REG_CALIBSTART = 0x88;

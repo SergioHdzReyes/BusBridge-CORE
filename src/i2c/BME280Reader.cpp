@@ -1,4 +1,4 @@
-#include "BME280Reader.h"
+#include "i2c/BME280Reader.h"
 
 #include <cstring>
 

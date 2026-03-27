@@ -1,36 +1,50 @@
-# Set platform for I2C
+# --------------------------------------------------
+# I2C module
+# --------------------------------------------------
 if(WIN32)
-    set(SRC_I2C_PLATFORM WindowsI2CDevice.cpp)
+    set(BUSBRIDGE_I2C_PLATFORM_SRC i2c/WindowsI2CDevice.cpp)
 else()
-    set(SRC_I2C_PLATFORM LinuxI2CDevice.cpp)
+    set(BUSBRIDGE_I2C_PLATFORM_SRC i2c/LinuxI2CDevice.cpp)
 endif()
 
-# I2C sources
-set(SRC_I2C
-        I2CDevice.cpp
-        BME280Reader.cpp
-        I2CError.cpp
-        ${SRC_I2C_PLATFORM}
+set(BUSBRIDGE_I2C_SOURCES
+    i2c/I2CDevice.cpp
+    i2c/BME280Reader.cpp
+    i2c/I2CError.cpp
+    ${BUSBRIDGE_I2C_PLATFORM_SRC}
 )
 
-# CAN sources
-set(SRC_CAN
-        can/CANMessage.cpp
-        can/CANError.cpp
-        can/CANDevice.cpp
-        can/SocketCANInterface.cpp
+# --------------------------------------------------
+# Core library (CAN + I2C)
+# --------------------------------------------------
+set(BUSBRIDGE_CORE_SOURCES
+    ${BUSBRIDGE_I2C_SOURCES}
+    can/CANMessage.cpp
+    can/CANError.cpp
+    can/CANDevice.cpp
+    can/CANSniffer.cpp
+    can/SocketCANInterface.cpp
 )
 
-# Create static library with both I2C and CAN components
-add_library(busbridge-core STATIC
-        ${SRC_I2C}
-        ${SRC_CAN}
+add_library(busbridge-core SHARED ${BUSBRIDGE_CORE_SOURCES})
+
+target_compile_features(busbridge-core PUBLIC cxx_std_17)
+
+target_include_directories(busbridge-core
+    PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
 )
 
-target_include_directories(busbridge-core PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-)
+if(UNIX AND NOT APPLE)
+    target_link_libraries(busbridge-core PRIVATE pthread)
+endif()
+
+# --------------------------------------------------
+# Core aggregator
+# --------------------------------------------------
+# From here forward the existing core install path is preserved
+# (already in busbridge-core target)
 
 # Library and headers installation
 install(TARGETS busbridge-core

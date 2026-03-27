@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ICANInterface.h"
+#include "can/ICANInterface.h"
 
 #include <memory>
 #include <string>

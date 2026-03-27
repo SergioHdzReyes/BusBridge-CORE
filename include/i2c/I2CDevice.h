@@ -1,6 +1,6 @@
 #pragma once
 
-#include "I2CInterface.h"
+#include "i2c/I2CInterface.h"
 
 #include <memory>
 

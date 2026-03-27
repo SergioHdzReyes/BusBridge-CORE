@@ -3,12 +3,12 @@
  * @brief Implementation of I2CDevice factory class
  */
 
-#include "I2CDevice.h"
+#include "i2c/I2CDevice.h"
 
 #if defined(_WIN32)
-#include "platform/WindowsI2CDevice.h"
+#include "i2c/platform/WindowsI2CDevice.h"
 #else
-#include "platform/LinuxI2CDevice.h"
+#include "i2c/platform/LinuxI2CDevice.h"
 #endif
 
 namespace busbridge::i2c {

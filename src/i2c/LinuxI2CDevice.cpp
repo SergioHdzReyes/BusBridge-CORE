@@ -1,4 +1,4 @@
-#include "platform/LinuxI2CDevice.h"
+#include "i2c/platform/LinuxI2CDevice.h"
 
 #include <fcntl.h>
 #include <unistd.h>

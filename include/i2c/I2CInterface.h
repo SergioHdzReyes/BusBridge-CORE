@@ -1,6 +1,6 @@
 #pragma once
 
-#include "I2CError.h"
+#include "i2c/I2CError.h"
 
 #include <cstdint>
 #include <cstdlib>
